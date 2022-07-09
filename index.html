@@ -104,20 +104,6 @@ margin: 10px;
     background-color: #AAA69B;
 }
 </style>
-
-  <script>
-  window.console = window.console || function(t) {};
-</script>
-
-  
-  
-  <script>
-  if (document.location.search.match(/type=embed/gi)) {
-    window.parent.postMessage("resize", "*");
-  }
-</script>
-
-
 </head>
 
 <body translate="no" >
@@ -147,9 +133,11 @@ window.onload = function () {
   var imageAnimated = document.getElementById("animated");
   var imageStopped = document.getElementById("stopped");
   var Interval;
+  var startedTimer;
 
   buttonStartStop.onclick = function () {
     if (buttonStartStop.innerHTML == 'Start') {
+        startedTimer = Date.now();
         imageAnimated.style.display = 'inline';
         imageStopped.style.display = 'none';
         buttonStartStop.innerHTML = 'Stop';
@@ -171,46 +159,23 @@ window.onload = function () {
     minutes = "00";
     appendTens.innerHTML = tens;
     appendSeconds.innerHTML = seconds;
+    appendMinutes.innerHTML = minutes;
+    buttonStartStop.innerHTML = 'Start';
   };
 
-
-
   function startTimer() {
-    tens++;
+    tens = Math.floor((Date.now() - startedTimer) / 10);
+    seconds = Math.floor(tens / 100);
+    minutes = Math.floor(seconds / 60);
 
-    if (tens <= 9) {
-      appendTens.innerHTML = "0" + tens;
-    }
+    tens = tens % 100;
+    seconds = seconds % 60;
 
-    if (tens > 9) {
-      appendTens.innerHTML = tens;
-
-    }
-
-    if (tens > 99) {
-      console.log("seconds");
-      seconds++;
-      appendSeconds.innerHTML = "0" + seconds;
-      tens = 0;
-      appendTens.innerHTML = "0" + 0;
-    }
-
-    if (seconds > 9) {
-      appendSeconds.innerHTML = seconds;
-    }
-
-    if (seconds > 59) {
-        seconds = 0;
-        minutes++;
-        appendSeconds.innerHTML = "00";
-        appendMinutes.innerHTML = (minutes <= 9 ? "0" : "") + minutes;
-    }
-
+    appendTens.innerHTML = (tens <= 9 ? "0" : "") + tens;
+    appendSeconds.innerHTML = (seconds <= 9 ? "0" : "") + seconds;
+    appendMinutes.innerHTML = (minutes <= 9 ? "0" : "") + minutes;
   }
-
-
 };
-//# sourceURL=pen.js
     </script>
 
   
